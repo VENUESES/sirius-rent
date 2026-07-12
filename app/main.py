@@ -3,6 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 import os
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
+from fastapi import status
 
 from .database import engine, Base
 from .routes import rooms_router, bookings_router, equipment_router
@@ -47,6 +50,31 @@ async def root():
 @app.get("/health")
 async def health():
     return {"status": "ok"}
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request, exc):
+    """Кастомная обработка ошибок валидации"""
+    errors = []
+    for error in exc.errors():
+        field = ".".join(str(loc) for loc in error["loc"])
+        msg = error["msg"]
+        
+        # Проверяем, что это ошибка парсинга целого числа
+        if "int_parsing" in error["type"] and "capacity" in field:
+            msg = "Вместимость должна быть целым числом (например: 1, 5, 10). Дробные числа (2.5, 3.7) не допускаются."
+        
+        errors.append({
+            "field": field,
+            "message": msg
+        })
+    
+    return JSONResponse(
+        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+        content={
+            "detail": errors,
+            "hint": "Пожалуйста, проверьте правильность введённых данных. capacity должен быть целым числом ≥ 1."
+        }
+    )
 
 if __name__ == "__main__":
     import uvicorn
