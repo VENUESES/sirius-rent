@@ -51,7 +51,7 @@ git clone https://github.com/VENUESES/sirius-rent.git
 cd sirius-arena
 ```
 
-Способ 2:
+###Способ 2:
 
 Перейти по ссылке: https://github.com/VENUESES/sirius-rent/archive/refs/heads/main.zip
 
