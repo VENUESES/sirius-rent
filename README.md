@@ -30,7 +30,7 @@
 ## 1. Клонировать репозиторий
 
 ```bash
-git clone <url-репозитория>
+git clone https://github.com/VENUESES/sirius-rent.git
 cd sirius-arena
 ```
 
