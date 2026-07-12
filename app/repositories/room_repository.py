@@ -1,9 +1,9 @@
 from typing import Optional, List
 from sqlalchemy.orm import Session
 from sqlalchemy import and_
-from ..models import Room, Equipment, room_equipment, Booking
-from ..schemas import RoomCreate, RoomUpdate
-from ..repositories.base import BaseRepository
+from app.models import Room, Equipment, room_equipment, Booking
+from app.schemas import RoomCreate, RoomUpdate
+from app.repositories.base import BaseRepository
 
 class RoomRepository(BaseRepository[Room, RoomCreate, RoomUpdate]):
     
@@ -16,6 +16,12 @@ class RoomRepository(BaseRepository[Room, RoomCreate, RoomUpdate]):
     def get_by_name(self, name: str) -> Optional[Room]:
         return self.db.query(Room).filter(Room.name == name).first()
     
+    def get_by_capacity(self, min_capacity: int, max_capacity: Optional[int] = None) -> List[Room]:
+        query = self.db.query(Room).filter(Room.capacity >= min_capacity)
+        if max_capacity:
+            query = query.filter(Room.capacity <= max_capacity)
+        return query.all()
+    
     def get_available_rooms(
         self,
         start_time,
@@ -23,7 +29,6 @@ class RoomRepository(BaseRepository[Room, RoomCreate, RoomUpdate]):
         capacity: Optional[int] = None,
         equipment_names: Optional[List[str]] = None
     ) -> List[Room]:
-        # Занятые комнаты
         booked = self.db.query(Booking.room_id).filter(
             and_(
                 Booking.status == 'активно',
@@ -38,7 +43,6 @@ class RoomRepository(BaseRepository[Room, RoomCreate, RoomUpdate]):
             query = query.filter(Room.capacity >= capacity)
         
         if equipment_names:
-            # Комнаты с оборудованием
             eq_rooms = self.db.query(room_equipment.c.room_id).join(
                 Equipment
             ).filter(
