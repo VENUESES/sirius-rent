@@ -48,6 +48,8 @@ https://www.python.org/ftp/python/3.11.9/python-3.11.9-amd64.exe
 В командной строке
 ```bash
 git clone https://github.com/VENUESES/sirius-rent.git
+```
+```bash
 cd sirius-arena
 ```
 
@@ -55,11 +57,27 @@ cd sirius-arena
 
 Перейти по ссылке: https://github.com/VENUESES/sirius-rent/archive/refs/heads/main.zip
 
-## 2. Создать виртуальное окружение
 
-**Windows:**
+## 2. Установка проекта
+
+Установить проект **обязательно в несистемную папку**
+
+### 1. Установить зависимости
+
+Запускать все скрипты ниже через для Windows 10: через комбинацию **"shift + ПКМ" в корневой папке проекта — "Открыть окно PowerShell здесь"
+Для Windows 11: в корневой папке проекта ПКМ — "Открыть в Терминале"
+
+```bash
+pip install -r requirements.txt
+```
+Примечание: Если появляется ошибка, выполните:
+
+### 2. Установка виртуальной среды
+
 ```bash
 python -m venv venv
+```
+```bash
 venv\Scripts\activate
 ```
 Примечание: Если появляется ошибка о запрете выполнения скриптов, выполните:
@@ -67,9 +85,14 @@ venv\Scripts\activate
 ```bash
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 ```
+Затем повторите:
 
+```bash
+venv\Scripts\activate
+```
+Затем
 
-## 3. Установить зависимости
+### 3. Установить зависимости
 
 ```bash
 pip install -r requirements.txt
