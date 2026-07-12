@@ -13,11 +13,31 @@ router = APIRouter(prefix="/rooms", tags=["Комнаты"])
 # === ПОЛУЧИТЬ ВСЕ КОМНАТЫ ===
 @router.get("/", response_model=List[Room])
 def get_rooms(
-    skip: int = Query(0, ge=0, description="Смещение для пагинации"),
-    limit: int = Query(100, ge=1, le=100, description="Лимит записей"),
-    capacity: Optional[int] = Query(None, ge=1, description="Минимальная вместимость"),
-    equipment: Optional[str] = Query(None, description="Список оборудования через запятую"),
-    require_all: bool = Query(True, description="Требовать всё оборудование или хотя бы одно"),
+    skip: int = Query(
+        0, 
+        ge=0, 
+        description="Смещение для пагинации (целое число ≥ 0)"
+    ),
+    limit: int = Query(
+        100, 
+        ge=1, 
+        le=100, 
+        description="Лимит записей (целое число от 1 до 100)"
+    ),
+    capacity: Optional[int] = Query(
+        None, 
+        ge=1, 
+        le=1000,
+        description="Минимальная вместимость (целое число ≥ 1 и ≤ 1000)"
+    ),
+    equipment: Optional[str] = Query(
+        None, 
+        description="Список оборудования через запятую (например: проектор,доска)"
+    ),
+    require_all: bool = Query(
+        True, 
+        description="Требовать всё оборудование или хотя бы одно"
+    ),
     db: Session = Depends(get_db)
 ):
     """
