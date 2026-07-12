@@ -41,10 +41,11 @@ cd sirius-arena
 python -m venv venv
 venv\Scripts\activate
 ```
-|   Примечание: Если появляется ошибка о запрете выполнения скриптов, выполните:
-|   ```bash
-|   Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-|   ```
+Примечание: Если появляется ошибка о запрете выполнения скриптов, выполните:
+
+```bash
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+```
 
 
 ## 3. Установить зависимости
