@@ -231,31 +231,40 @@ curl http://localhost:8000/rooms/1
 ## 🗂️ Структура проекта
 
 ```
-sirius-arena/
+sirius-rent/
 ├── app/
 │   ├── __init__.py
-│   ├── main.py                 # Точка входа
-│   ├── database.py             # Подключение к БД
-│   ├── models.py               # Модели SQLAlchemy
-│   ├── schemas.py              # Схемы Pydantic
+│   ├── main.py                 # Точка входа (FastAPI приложение)
+│   ├── database.py             # Подключение к БД (SQLite)
+│   ├── models.py               # Модели SQLAlchemy (Room, Booking, Equipment)
+│   ├── schemas.py              # Схемы Pydantic (валидация данных)
 │   │
-│   ├── repositories/           # CRUD-классы
+│   ├── repositories/           # CRUD-классы (работа с БД)
 │   │   ├── __init__.py
-│   │   ├── base.py
+│   │   ├── base.py             # Базовый репозиторий с общими методами
 │   │   ├── room_repository.py
 │   │   ├── booking_repository.py
 │   │   └── equipment_repository.py
 │   │
-│   └── routes/                 # Эндпоинты
+│   └── routes/                 # Эндпоинты API
 │       ├── __init__.py
-│       ├── rooms.py
-│       ├── bookings.py
-│       └── equipment.py
+│       ├── rooms.py            # /rooms/* (CRUD для комнат)
+│       ├── bookings.py         # /bookings/* (бронирования)
+│       └── equipment.py        # /equipment/* (оборудование)
 │
+├── tests/                      # 🧪 Юнит-тесты
+│   ├── __init__.py
+│   ├── test_rooms.py           # Тесты для комнат
+│   ├── test_bookings.py        # Тесты для бронирований
+│   └── test_equipment.py       # Тесты для оборудования
 │
-├── requirements.txt            # Зависимости
-├── run.bat                     # 🚀 Запуск одной кнопкой (Windows)
-└── README.md                   # Документация
+├── static/                     # Веб-интерфейс
+│   └── index.html              # Главная страница (HTML + CSS + JS)
+│
+├── requirements.txt            # Зависимости проекта
+├── run.bat                     # Скрипт запуска (Windows)
+├── .gitignore                  # Исключения для Git
+└── README.md                   # Документация проекта
 ```
 
 ## ⚠️ Обработка ошибок
@@ -266,6 +275,25 @@ sirius-arena/
 400     Bad Request	Ошибка валидации данных
 404     Not Found	Объект не найден
 409     Conflict	Конфликт (комната уже занята)
+
+## 🧪Тесты
+
+Файл	                    Что тестирует
+test_rooms.py	    CRUD для комнат, фильтрация по вместимости
+test_bookings.py	Создание, конфликт (409), отмена, расписание
+test_equipment.py	Создание, дублирование, список
+
+### Запуск всех тестов:
+
+```bash
+pytest tests/ -v
+```
+
+### Запустить конкретный файл:
+
+```bash
+pytest tests/test_bookings.py -v
+```
 
 ## 🚀 Запуск одной кнопкой (run.bat)
 
