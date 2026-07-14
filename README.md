@@ -276,7 +276,7 @@ sirius-rent/
 404     Not Found	Объект не найден
 409     Conflict	Конфликт (комната уже занята)
 
-## 🧪Тесты
+## 🧪Юнит тесты
 
 Файл	                    Что тестирует
 test_rooms.py	    CRUD для комнат, фильтрация по вместимости
@@ -301,11 +301,13 @@ pytest tests/test_bookings.py -v
 
 ### Содержимое run.bat:
 
+```
 @echo off
 echo 🚀 Запуск Сириус.Аренда...
 call venv\Scripts\activate
 uvicorn app.main:app --reload
 pause
+```
 
 ## 📊 Схема базы данных
 
